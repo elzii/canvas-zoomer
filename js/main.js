@@ -37,7 +37,7 @@ define('zoomer', [
 
   var config = c = {}
 
-  var IMAGE_DIR = '/images'
+  var IMAGE_DIR = '/images/syria'
   
   
   var loadedImages = {};
@@ -83,6 +83,8 @@ define('zoomer', [
         foci.push([fX, fY]);
 
       })
+
+      console.log('zooms', zooms)
 
 
       zoomScale  = d3.scale.linear().domain(positions).range(zooms).clamp(true);
@@ -271,6 +273,9 @@ define('zoomer', [
         lo = chosen.loImage,
         bg = chosen.bgImage;
 
+    // console.log('hi', hi)
+    // console.log('lo', lo)
+
     if (smallScreen) focus[1] = mobileFocusY;
 
     var pivot = [focus[0]*width, focus[1]*height]; // center of zoominess
@@ -278,10 +283,10 @@ define('zoomer', [
     var motionBlurAmount = 0; // 0 to 1, lo to hi blur
 
     // stopgap for early in greenland zoomy when there's no image covering one part of the canvas
-    if (smallScreen && zoom < 0.02 && config.slug === 'greenland') {
-      ctx.fillStyle   = '#152735';
-      ctx.fillRect(0, 0, width, height);
-    }
+    // if (smallScreen && zoom < 0.02 && config.slug === 'syria') {
+    //   ctx.fillStyle   = '#152735';
+    //   ctx.fillRect(0, 0, width, height);
+    // }
 
 
     // TODO rather than scaling entire image,
@@ -295,32 +300,35 @@ define('zoomer', [
     var needBackground = zoom * lo.scale < 1.2 ? true : false;
 
     ctx.save();
-      ctx.translate(pivot[0], pivot[1]);
+    ctx.translate(pivot[0], pivot[1]);
 
-      ctx.scale(zoom, zoom)
+    ctx.scale(zoom, zoom)
 
-      if (needBackground) {
-        ctx.save();
-          ctx.scale(bg.scale, bg.scale)
-          ctx.globalAlpha = (1-motionBlurAmount);
-          ctx.drawImage(bg.imageObj, -coverDim/2, -coverDim/2, coverDim, coverDim);
-        ctx.restore();
-      }
-
-
-      ctx.save();
-        ctx.scale(lo.scale, lo.scale)
-        ctx.globalAlpha = (1-motionBlurAmount);
-        ctx.drawImage(lo.imageObj, -coverDim/2, -coverDim/2, coverDim, coverDim);
-      ctx.restore();
+    // if (needBackground) {
+    //   ctx.save();
+    //     ctx.scale(bg.scale, bg.scale)
+    //     ctx.globalAlpha = (1-motionBlurAmount);
+    //     ctx.drawImage(bg.imageObj, -coverDim/2, -coverDim/2, coverDim, coverDim);
+    //   ctx.restore();
+    // }
 
 
+    ctx.save();
+      ctx.scale(lo.scale, lo.scale)
+      ctx.globalAlpha = (1-motionBlurAmount);
+      ctx.drawImage(lo.imageObj, -coverDim/2, -coverDim/2, coverDim, coverDim);
+    ctx.restore();
 
-      ctx.save();
-        ctx.scale(hi.scale, hi.scale)
-        ctx.globalAlpha = chosen.progress*(1-motionBlurAmount);
-        ctx.drawImage(hi.imageObj, -coverDim/2, -coverDim/2, coverDim, coverDim);
-      ctx.restore();
+
+    ctx.save();
+      ctx.scale(hi.scale, hi.scale)
+      ctx.globalAlpha = chosen.progress*(1-motionBlurAmount);
+      ctx.drawImage(hi.imageObj, -coverDim/2, -coverDim/2, coverDim, coverDim);
+
+      // ctx.strokeStyle = '#f00'; 
+      // ctx.lineWidth = 20;        
+      // ctx.strokeRect(-coverDim/2, -coverDim/2, coverDim, coverDim);
+    ctx.restore();
 
 
     ctx.restore();
@@ -397,25 +405,46 @@ define('zoomer', [
   function getImageList() {
     return {
       'greenland': [
-        { 'name': 'z-0.00304.jpg',
+        // { 'name': 'z-0.00304.jpg',
+        //   'scale': 1/0.00304  },
+        // { 'name': 'z-0.00912.jpg',
+        //   'scale': 1/0.00912  },
+        // { 'name': 'z-0.0228.jpg',
+        //   'scale': 1/0.0228  },
+        // { 'name': 'z-0.12.jpg',
+        //   'scale': 1/0.12  },
+        // { 'name': 'z-0.2.jpg',
+        //   'scale': 1/0.2  },
+        // { 'name': 'z-1.jpg',
+        //   'scale': 1/1  },
+        // { 'name': 'z-3.560.jpg',
+        //   'scale': 1/3.560  },
+        // { 'name': 'z-15.221.jpg',
+        //   'scale': 1/15.221  },
+        // { 'name': 'z-50.351.jpg',
+        //   'scale': 1/50.351  },
+        // { 'name': 'z-124.568.jpg',
+        //   'scale': 1/124.568  },
+
+        { 'name': '09.jpg',
           'scale': 1/0.00304  },
-        { 'name': 'z-0.00912.jpg',
+        { 'name': '08.jpg',
           'scale': 1/0.00912  },
-        { 'name': 'z-0.0228.jpg',
+        { 'name': '07.jpg',
           'scale': 1/0.0228  },
-        { 'name': 'z-0.12.jpg',
+        { 'name': '06.jpg',
           'scale': 1/0.12  },
-        { 'name': 'z-0.2.jpg',
+        { 'name': '05.jpg',
           'scale': 1/0.2  },
-        { 'name': 'z-1.jpg',
+        { 'name': '04.jpg',
           'scale': 1/1  },
-        { 'name': 'z-3.560.jpg',
+        { 'name': '03.jpg',
           'scale': 1/3.560  },
-        { 'name': 'z-15.221.jpg',
+        { 'name': '02.jpg',
           'scale': 1/15.221  },
-        { 'name': 'z-50.351.jpg',
+        { 'name': '01.jpg',
           'scale': 1/50.351  },
-        { 'name': 'z-124.568.jpg',
+        { 'name': '00.jpg',
           'scale': 1/124.568  },
       ]
     }
