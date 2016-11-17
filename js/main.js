@@ -37,7 +37,7 @@ define('zoomer', [
 
   var config = c = {}
 
-  var IMAGE_DIR = '/images/syria'
+  var IMAGE_DIR = 'images/syria'
   
   
   var loadedImages = {};
